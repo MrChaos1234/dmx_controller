@@ -2,6 +2,7 @@ from stupidArtnet import StupidArtnet
 import random
 import time
 import threading
+import json
 
 
 class ArtnetOutputter:
@@ -40,7 +41,8 @@ class ArtnetOutputter:
 
         while True:
             if len(self.dmx_queue) > 0:
-                packet[int(self.dmx_queue[0][0] - 1)] = int(self.dmx_queue[0][1])
+                # print(self.dmx_queue)
+                packet[int(self.dmx_queue[0][0])-1] = int(self.dmx_queue[0][1])
                 self.dmx_queue.pop(0)
             else:
                 packet = packet_old
@@ -51,10 +53,36 @@ class ArtnetOutputter:
             if self.stop:
                 break
 
-
-    def change_value_for_channel(self, channel, value):
+    def change_value_for_channel(self, channel_raw:str, value, temp: bool):
+        universe, channel = str(channel_raw).split(".")
         dmx_value = [channel, value]
         self.dmx_queue.append(dmx_value)
 
+        if not temp:
+            # change value in the dmx_output file
+            # read file
+            with open("internal_files/dmx_output.json") as f:
+                data = json.load(f)
+
+            # change value for desired channel
+            data[universe][channel] = int(value)
+
+            # safe to file again
+            with open("internal_files/dmx_output.json", "w") as f:
+                json.dump(data, f, indent=4, separators=(',', ': '))
+
+    def generate_empty_dmx_output_file(self):
+        data = {}
+        empty_universe = {}
+        for channel in range(1, 513, 1):
+            empty_universe[str(channel)] = 0
+
+        for universe in range(3):
+            data[universe] = empty_universe
+
+        with open("internal_files/dmx_output.json", "w") as f:
+            json.dump(data, f, indent=4, separators=(',', ': '))
 
 
+# A = ArtnetOutputter(512)
+# A.generate_empty_dmx_output_file()
