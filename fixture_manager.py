@@ -6,7 +6,7 @@ class FixtureManager:
     def __init__(self):
         pass
 
-    def add_fixture(self, fixture_library_id, mode_id, fixture_id, fixture_display_name, dmx_address):
+    def add_fixture(self, fixture_library_id: int, mode_id: int, fixture_id: int, fixture_display_name: str, dmx_address: str) -> str:
         all_available_fixtures = self.list_available_fixtures()
         name: str = str(all_available_fixtures[fixture_library_id][0])
         channels: list = all_available_fixtures[fixture_library_id][1][mode_id][1]
@@ -97,10 +97,21 @@ class FixtureManager:
 
         return dmx_patch
 
+    def calculate_fixture_patch(self) -> dict:
+        with open("internal_files/fixture_patch.json") as f:
+            data = json.load(f)
+
+        fixture_patch = {}
+        for i in range(len(data)):
+            fixture_patch[i] = data[i]
+
+        return fixture_patch
 
 F = FixtureManager()
 # print(F.list_available_fixtures())
 # print(F.add_fixture(0, 0, 2, "LED PAR 64 1", "0.1"))
 # F.remove_fixture(1004)
-# print(F.add_multiple_fixtures(0, 0, 1, "LED PAR", "0.1", 10, 6))
-print(F.calculate_dmx_patch())
+print(F.add_multiple_fixtures(2, 0, 2, "LED PAR", "0.10", 3, 5))
+# print(F.calculate_dmx_patch())
+#for el in F.calculate_fixture_patch():
+    #print(F.calculate_fixture_patch()[el])

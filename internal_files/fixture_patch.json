@@ -1,162 +1,34 @@
 [
     {
-        "id": 100,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 0",
-        "channel_mode": 1,
-        "dmx_start_address": "0.100"
-    },
-    {
-        "id": 101,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 1",
-        "channel_mode": 1,
-        "dmx_start_address": "0.120"
-    },
-    {
-        "id": 102,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 2",
-        "channel_mode": 1,
-        "dmx_start_address": "0.140"
-    },
-    {
-        "id": 103,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 3",
-        "channel_mode": 1,
-        "dmx_start_address": "0.160"
-    },
-    {
-        "id": 104,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 4",
-        "channel_mode": 1,
-        "dmx_start_address": "0.180"
-    },
-    {
-        "id": 105,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 5",
-        "channel_mode": 1,
-        "dmx_start_address": "0.200"
-    },
-    {
-        "id": 106,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 6",
-        "channel_mode": 1,
-        "dmx_start_address": "0.220"
-    },
-    {
-        "id": 107,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 7",
-        "channel_mode": 1,
-        "dmx_start_address": "0.240"
-    },
-    {
-        "id": 108,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 8",
-        "channel_mode": 1,
-        "dmx_start_address": "0.260"
-    },
-    {
-        "id": 109,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "MHX 9",
-        "channel_mode": 1,
-        "dmx_start_address": "0.280"
-    },
-    {
-        "id": 1,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
-        "display_name": "LED PAR 0",
-        "channel_mode": 0,
-        "dmx_start_address": "0.1"
-    },
-    {
         "id": 2,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
+        "fixture_name": "DRGB Fader",
+        "fixture_library_id": 2,
         "display_name": "LED PAR 1",
         "channel_mode": 0,
-        "dmx_start_address": "0.11"
+        "dmx_start_address": "0.10"
     },
     {
         "id": 3,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
+        "fixture_name": "DRGB Fader",
+        "fixture_library_id": 2,
         "display_name": "LED PAR 2",
         "channel_mode": 0,
-        "dmx_start_address": "0.21"
+        "dmx_start_address": "0.20"
     },
     {
         "id": 4,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
+        "fixture_name": "DRGB Fader",
+        "fixture_library_id": 2,
         "display_name": "LED PAR 3",
         "channel_mode": 0,
-        "dmx_start_address": "0.31"
+        "dmx_start_address": "0.30"
     },
     {
-        "id": 5,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
-        "display_name": "LED PAR 4",
+        "id": 1,
+        "fixture_name": "DRGB Fader",
+        "fixture_library_id": 2,
+        "display_name": "LED_PAR_0",
         "channel_mode": 0,
-        "dmx_start_address": "0.41"
-    },
-    {
-        "id": 6,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
-        "display_name": "LED PAR 5",
-        "channel_mode": 0,
-        "dmx_start_address": "0.51"
-    },
-    {
-        "id": 7,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
-        "display_name": "LED PAR 6",
-        "channel_mode": 0,
-        "dmx_start_address": "0.61"
-    },
-    {
-        "id": 8,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
-        "display_name": "LED PAR 7",
-        "channel_mode": 0,
-        "dmx_start_address": "0.71"
-    },
-    {
-        "id": 9,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
-        "display_name": "LED PAR 8",
-        "channel_mode": 0,
-        "dmx_start_address": "0.81"
-    },
-    {
-        "id": 10,
-        "fixture_name": "RGB Fader",
-        "fixture_library_id": 0,
-        "display_name": "LED PAR 9",
-        "channel_mode": 0,
-        "dmx_start_address": "0.91"
+        "dmx_start_address": "0.1"
     }
 ]

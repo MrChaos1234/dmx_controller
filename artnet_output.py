@@ -16,8 +16,11 @@ class ArtnetOutputter:
     def start_output(self) -> None:
         target_ip = "255.255.255.255"
         packet_size = self.packet_size # only even numbers are working
-        universe = 0
+        universe = 15
         self.a = StupidArtnet(target_ip, universe, packet_size, 40, True, True)
+        self.a.set_simplified(False)
+        self.a.set_net(0)
+        self.a.set_subnet(1)
         print(self.a)  # print the init log of StupidArtnet
         self.a.start()
 
@@ -56,6 +59,7 @@ class ArtnetOutputter:
     def change_value_for_channel(self, channel_raw:str, value, temp: bool):
         universe, channel = str(channel_raw).split(".")
         dmx_value = [channel, value]
+        print(dmx_value)
         self.dmx_queue.append(dmx_value)
 
         if not temp:

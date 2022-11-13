@@ -12,7 +12,7 @@ class Executer:
     def __init__(self):
         self.FixtureManager = FixtureManager()
 
-    def open_fixture_shutter(self, artnet_outputter: ArtnetOutputter, fixture_id):
+    def change_fixture_shutter(self, artnet_outputter: ArtnetOutputter, fixture_id: int, shutter_value: int) -> str:
         # set dmx channel
         with open("internal_files/fixture_patch.json") as f:
             data = json.load(f)
@@ -22,7 +22,7 @@ class Executer:
                 for channel in dmx_patch:
                     if dmx_patch[channel][0] == fixture_id:
                         if dmx_patch[channel][2] == "Shutter":
-                            artnet_outputter.change_value_for_channel(channel, 255, False)
+                            artnet_outputter.change_value_for_channel(channel, shutter_value, False)
 
         return "Done"
 
