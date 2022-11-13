@@ -3,16 +3,22 @@ import sys
 import time
 import os
 import numpy as np
+import threading
 
-from artnet_output import ArtnetOutputter
+from artnet_manager import ArtnetManager
 from fixture_manager import FixtureManager
+from pult_hardware_manager import PultHardwareManager
 
 
 class Executer:
     def __init__(self):
         self.FixtureManager = FixtureManager()
+        self.map_fader_to_channel_thread = threading.Thread()
+        self.map_flash_buttons_thread = threading.Thread()
+        self.stop_flag = False
+        self.stop_flag_1 = False
 
-    def change_fixture_shutter(self, artnet_outputter: ArtnetOutputter, fixture_id: int, shutter_value: int) -> str:
+    def change_fixture_shutter(self, artnet_outputter: ArtnetManager, fixture_id: int, shutter_value: int) -> str:
         # set dmx channel
         with open("internal_files/fixture_patch.json") as f:
             data = json.load(f)
@@ -26,7 +32,7 @@ class Executer:
 
         return "Done"
 
-    def change_fixture_dimmer(self, artnet_outputter: ArtnetOutputter, fixture_id, dimmer_value):
+    def change_fixture_dimmer(self, artnet_outputter: ArtnetManager, fixture_id, dimmer_value):
         # check if fixture is dimmable
         with open("internal_files/fixture_patch.json") as f:
             data = json.load(f)
@@ -42,7 +48,7 @@ class Executer:
         # seems like fixture is not dimmable, use rgb channels
         return self.change_undimmable_fixture_dimmer(artnet_outputter, fixture_id, dimmer_value)
 
-    def change_dimmable_fixture_dimmer(self, artnet_outputter: ArtnetOutputter, fixture_id, dimmer_value):
+    def change_dimmable_fixture_dimmer(self, artnet_outputter: ArtnetManager, fixture_id, dimmer_value):
         # get dmx channel that is named dimmer
         with open("internal_files/fixture_patch.json") as f:
             data = json.load(f)
@@ -56,7 +62,7 @@ class Executer:
 
         return "Done"
 
-    def change_undimmable_fixture_dimmer(self, artnet_outputter: ArtnetOutputter, fixture_id, dimmer_value):
+    def change_undimmable_fixture_dimmer(self, artnet_outputter: ArtnetManager, fixture_id, dimmer_value):
         # get rbg channels
         rgb_channels = [0,0,0]
         with open("internal_files/fixture_patch.json") as f:
@@ -108,7 +114,7 @@ class Executer:
 
         return "Done"
 
-    def change_rgb_fixture_color(self, artnet_outputter: ArtnetOutputter, fixture_id, color:list):
+    def change_rgb_fixture_color(self, artnet_outputter: ArtnetManager, fixture_id, color:list):
         # set dmx channel
         with open("internal_files/fixture_patch.json") as f:
             data = json.load(f)
@@ -126,7 +132,7 @@ class Executer:
 
         return "Done"
 
-    def change_colorwheel_fixture_color(self, artnet_outputter: ArtnetOutputter, fixture_id, input_color):
+    def change_colorwheel_fixture_color(self, artnet_outputter: ArtnetManager, fixture_id, input_color):
         # get fixture library id
         fixture_library_id = self.FixtureManager.get_fixture_library_id(fixture_id)
 
@@ -224,13 +230,62 @@ class Executer:
 
         return "Done"
 
+    # map hardware to fixture attributes
+    def start_map_fader_to_channel(self, artnet_outputter: ArtnetManager, pult_hardware_manager: PultHardwareManager, fader_id, channel_id):
+        self.stop_flag = False
+        self.map_fader_to_channel_thread = threading.Thread(target=self.map_fader_to_channel, args=(artnet_outputter, pult_hardware_manager, fader_id, channel_id))
+        self.map_fader_to_channel_thread.start()
+        return "Done"
 
-# A = ArtnetOutputter(512)
+    def map_fader_to_channel(self, artnet_outputter: ArtnetManager, pult_hardware_manager: PultHardwareManager, fader_id, channel_id):
+        while True:
+            # get fader value
+            fader_value = pult_hardware_manager.get_fader_value(fader_id)
+            # set channel value
+            artnet_outputter.change_value_for_channel(channel_id, fader_value, True)
+            if self.stop_flag:
+                break
+
+    def stop_map_fader_to_channel(self, fader_id):
+        self.stop_flag = True
+        self.map_fader_to_channel_thread.join()
+        return "Done"
+
+    def start_map_flash_buttons_to_channels(self, artnet_outputter: ArtnetManager, pult_hardware_manager: PultHardwareManager, starting_channel):
+        self.stop_flag_1 = False
+        self.map_flash_buttons_thread = threading.Thread(target=self.map_flash_buttons_to_channels, args=(artnet_outputter, pult_hardware_manager, starting_channel,))
+        self.map_flash_buttons_thread.start()
+        return "Done"
+
+    def map_flash_buttons_to_channels(self, artnet_outputter: ArtnetManager, pult_hardware_manager: PultHardwareManager, starting_channel):
+        while True:
+            # get button values
+            button_values = []
+            for i in range(1, 4, 1):
+                button_values.append(pult_hardware_manager.get_button_value(i))
+
+            # set channel values
+            for i in range(len(button_values)):
+                if button_values[i] == 1:
+                    artnet_outputter.change_value_for_channel(str(starting_channel).split(".")[0] + "." + str((int(str(starting_channel).split(".")[1]) + i)), str(255), True)
+                else:
+                    artnet_outputter.change_value_for_channel(str(starting_channel).split(".")[0] + "." + str((int(str(starting_channel).split(".")[1]) + i)), str(0), True)
+            if self.stop_flag_1:
+                break
+
+    def stop_map_flash_buttons_to_channels(self, button_id):
+        self.stop_flag_1 = True
+        self.map_flash_buttons_thread.join()
+        return "Done"
+
+#
+# A = ArtnetManager(512)
 # A.start_output()
 #
 # time.sleep(2)
 #
 # E = Executer()
+# P = PultHardwareManager()
 #
 # A.generate_empty_dmx_output_file()
 
@@ -241,6 +296,9 @@ class Executer:
 # print(E.change_undimmable_fixture_dimmer(A, 1, 255))
 
 # print(E.open_fixture_shutter(A, 100))
+
+# E.map_fader_to_channel_thread(A, P, 1, "0.1")
+
 
 # time.sleep(10)
 # A.stop_output()

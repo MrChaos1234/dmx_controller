@@ -1,12 +1,16 @@
 import time
 import sys
 
-from artnet_output import ArtnetOutputter
+from artnet_manager import ArtnetManager
 from execute import Executer
 from fixture_manager import FixtureManager
+from pult_hardware_manager import PultHardwareManager
+
 E = Executer()
 F = FixtureManager()
-A = ArtnetOutputter(512)
+P = PultHardwareManager()
+
+A = ArtnetManager(512)
 A.start_output()
 A.generate_empty_dmx_output_file()
 time.sleep(1)
@@ -78,6 +82,36 @@ while True:
         else:
             print("Unknown command")
 
+    elif str(command[0]) == "hardware":
+        if str(command[1]) == "read":
+            if str(command[2]) == "fader":
+                fader_id = int(command[3])
+                print(P.get_fader_value(fader_id))
+            elif str(command[2]) == "button":
+                button_id = int(command[3])
+                print(P.get_button_value(button_id))
+        elif str(command[1]) == "set":
+            if str(command[2]) == "fader":
+                fader_id = int(command[3])
+                value = int(command[4])
+                P.set_fader_value(fader_id, value)
+        elif str(command[1]) == "map":
+            if str(command[2]) == "fader":
+                fader_id = int(command[3])
+                channel = str(command[4])
+                E.start_map_fader_to_channel(A, P, fader_id, channel)
+            elif str(command[2]) == "button":
+                button_id = int(command[3])
+                channel = str(command[4])
+                E.start_map_flash_buttons_to_channels(A, P, channel)
+        elif str(command[1]) == "unmap":
+            if str(command[2]) == "fader":
+                fader_id = int(command[3])
+                E.stop_map_fader_to_channel(fader_id)
+            elif str(command[2]) == "button":
+                button_id = int(command[3])
+                E.stop_map_flash_buttons_to_channels(button_id)
+
     elif str(command[0]) == "exit":
         break
 
@@ -93,6 +127,13 @@ while True:
         print("- list fixturelibrary" + " " * 10 + "Lists all available fixtures")
         print("- list fixturepatch" + " " * 10 + "Lists the fixture patch")
         print("- list dmxpatch" + " " * 10 + "Lists all dmx channels")
+        print("- hardware read fader (fader_id)" + " " * 10 + "Reads a fader value")
+        print("- hardware set fader (fader_id) (value)" + " " * 10 + "Writes a fader value")
+        print("- hardware read button (button_id)" + " " * 10 + "Reads a button value")
+        print("- hardware map fader (fader_id) (universe.channel)" + " " * 10 + "Maps a fader to a channel")
+        print("- hardware unmap fader (fader_id)" + " " * 10 + "Unmaps a fader")
+        print("- hardware map button (button_id) (universe.channel)" + " " * 10 + "Maps a button to a channel")
+        print("- hardware unmap button (button_id)" + " " * 10 + "Unmaps a button")
         print("- help" + " " * 10 + "Shows this help")
         print("- exit" + " " * 10 + "Exits the program")
 
