@@ -8,7 +8,7 @@ from pult_hardware_manager import PultHardwareManager
 
 E = Executer()
 F = FixtureManager()
-P = PultHardwareManager()
+# P = PultHardwareManager()
 
 A = ArtnetManager(512)
 A.start_output()

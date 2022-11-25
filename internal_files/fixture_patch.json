@@ -30,5 +30,13 @@
         "display_name": "LED_PAR_0",
         "channel_mode": 0,
         "dmx_start_address": "0.1"
+    },
+    {
+        "id": 10,
+        "fixture_name": "MH-X25",
+        "fixture_library_id": 1,
+        "display_name": "MovingHead",
+        "channel_mode": 1,
+        "dmx_start_address": "0.100"
     }
 ]

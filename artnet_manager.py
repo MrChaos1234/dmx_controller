@@ -3,7 +3,7 @@ import random
 import time
 import threading
 import json
-
+from threading import Timer
 
 class ArtnetManager:
     def __init__(self, packet_size):
@@ -24,16 +24,21 @@ class ArtnetManager:
         self.a.start()
 
         self.output_thread = threading.Thread()
-        self.dmx_queue = [[1, 0]]
+        self.dmx_queue = [[[1, 255], [2, 255]]]
+        self.package = []
 
         self.output_thread = threading.Thread(target=self.build_output_package, name="Outputter")
         self.output_thread.start()
+
+        self._timer = Timer(1, self.add_package_to_queue)
+        self._timer.start()
 
     def stop_output(self):
         self.a.blackout()
         self.a.stop()
         self.stop = True
         self.output_thread.join()
+        self._timer.cancel()
 
     def build_output_package(self):
         packet = bytearray(self.packet_size)
@@ -44,9 +49,12 @@ class ArtnetManager:
             packet_old[x] = 0
 
         while True:
+            # dmx_queue = [[[1,255], [2, 0], [3, 255]], [[1,255]]]
             if len(self.dmx_queue) > 0:
                 # print(self.dmx_queue)
-                packet[int(self.dmx_queue[0][0])-1] = int(self.dmx_queue[0][1])
+                for el in self.dmx_queue[0]:
+                    print(el)
+                    packet[int(el[0]) - 1] = el[1]
                 self.dmx_queue.pop(0)
             else:
                 packet = packet_old
@@ -59,32 +67,41 @@ class ArtnetManager:
             if self.stop:
                 break
 
+    def add_package_to_queue(self):
+        # this function is called 30 times per second
+        # if self.package != []:
+        # self.dmx_queue.append(self.package)
+        # print(" added package to queue")
+        # self.package = []
+        print("rrr")
+
     def change_value_for_channel(self, channel_raw:str, value, temp: bool):
         universe, channel = str(channel_raw).split(".")
-        dmx_value = [channel, value]
+        to_send = [channel, value]
+
+        self.package.append(to_send)
         # print(dmx_value)
-        self.dmx_queue.append(dmx_value)
-        time.sleep(0.03)  # timing issues here / also so gehts iwie, aber gut ist anders
-        ####### timing issues!!!!  die queue sendet nur mit 30fps und wenn hier dann mehr kommt, wird die voll bzw unendlich voll
-        ##TODO: fix timing issues
+        # self.dmx_queue.append(dmx_value)
+        #time.sleep(0.03)  # timing issues here / also so gehts iwie, aber gut ist anders
 
 
-        #t = time.time()
-        if not temp:
-            # change value in the dmx_output file
-            # read file
-            with open("internal_files/dmx_output.json") as f:
-                data = json.load(f)
 
-            # change value for desired channel
-            data[universe][channel] = int(value)
-
-            # safe to file again
-            with open("internal_files/dmx_output.json", "w") as f:
-                json.dump(data, f, indent=4, separators=(',', ': '))
-
-        #ti = time.time()
-        #print("Time wirte json" + str(ti-t))
+        # #t = time.time()
+        # if not temp:
+        #     # change value in the dmx_output file
+        #     # read file
+        #     with open("internal_files/dmx_output.json") as f:
+        #         data = json.load(f)
+        #
+        #     # change value for desired channel
+        #     data[universe][channel] = int(value)
+        #
+        #     # safe to file again
+        #     with open("internal_files/dmx_output.json", "w") as f:
+        #         json.dump(data, f, indent=4, separators=(',', ': '))
+        #
+        # #ti = time.time()
+        # #print("Time wirte json" + str(ti-t))
 
     def generate_empty_dmx_output_file(self):
         data = {}
@@ -161,7 +178,9 @@ class ArtnetManager:
     ### end ###
 
 
-# A = ArtnetManager(512)
-# A.start_output()
-# input("Press Enter to start output")
+A = ArtnetManager(512)
+A.start_output()
+input("jjj")
+A.change_value_for_channel("0.5", 255, False)
+input("jjj")
 # A.generate_empty_dmx_output_file()
