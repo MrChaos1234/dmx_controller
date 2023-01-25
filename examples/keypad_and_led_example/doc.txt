@@ -1,0 +1,8 @@
+Hier wird ein Signal "rückwärts" gesendet. 
+
+Aus dem QML wird ein Slot im Presentation Model getriggert. 
+Dieser löst ein Signal aus, das einen Slot im Haupt Skript der LED Triggert. 
+Dieses wiederum löst ein Signal aus, das einen Slot im i2c thread triggert, in dem parrallel auch die Multiplexer laufen. 
+Dieses Signal ruft dann eine Funktion aus dirver_led auf, die die ansteurung des arduinos per i2c übernimmt. 
+
+Das Beispiel funktioniert! 

@@ -1,0 +1,6 @@
+ToDos im Main Programm: 
+
+====================================
+
+--> Rotary Encoder müssen noch vollständig der neuen Version angepasst 
+    und mit Hardware getestet werden. Auch das Example (examples/rotary_encoder_example) muss dementsprechend angepasst werden.
