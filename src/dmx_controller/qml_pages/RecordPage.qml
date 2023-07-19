@@ -12,12 +12,18 @@ Item {
         anchors.fill: parent
         color: "#121212"
 
-        Text {
-            id: text
-            anchors.centerIn: parent
-            text: "Record Page Placeholder"
-            font.pixelSize: 30
-            color: "#ffffff"
+        StageSelectingView {
+            id: stageSelectingView
+            anchors.left: parent.left
+            width:1050
+        }
+
+        CueList {
+            id: cueList
+            anchors.left: stageSelectingView.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            
         }
     }
 }

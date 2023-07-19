@@ -1,34 +1,92 @@
 [
     {
-        "id": 1,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "LED PAR 1",
+        "id": 10,
+        "fixture_name": "LED Balken",
+        "fixture_library_id": 7,
+        "display_name": "Balken 1",
         "channel_mode": 0,
-        "dmx_start_address": "0.10"
+        "dmx_start_address": "0.1",
+        "in_stage_view": true
     },
     {
-        "id": 2,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "LED PAR 2",
+        "id": 11,
+        "fixture_name": "LED Balken",
+        "fixture_library_id": 7,
+        "display_name": "Balken 2",
         "channel_mode": 0,
-        "dmx_start_address": "0.20"
+        "dmx_start_address": "0.7",
+        "in_stage_view": true
     },
     {
-        "id": 3,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "LED PAR 3",
+        "id": 12,
+        "fixture_name": "LED Balken",
+        "fixture_library_id": 7,
+        "display_name": "Balken 3",
         "channel_mode": 0,
-        "dmx_start_address": "0.30"
+        "dmx_start_address": "0.13",
+        "in_stage_view": true
     },
     {
-        "id": 4,
-        "fixture_name": "MH-X25",
-        "fixture_library_id": 1,
-        "display_name": "LED PAR 4",
+        "id": 13,
+        "fixture_name": "LED Balken",
+        "fixture_library_id": 7,
+        "display_name": "Balken 4",
         "channel_mode": 0,
-        "dmx_start_address": "0.40"
+        "dmx_start_address": "0.19",
+        "in_stage_view": true
+    },
+    {
+        "id": 101,
+        "fixture_name": "Fluter",
+        "fixture_library_id": 5,
+        "display_name": "Kanne R",
+        "channel_mode": 0,
+        "dmx_start_address": "0.40",
+        "in_stage_view": true
+    },
+    {
+        "id": 102,
+        "fixture_name": "Fluter",
+        "fixture_library_id": 5,
+        "display_name": "Kanne RM",
+        "channel_mode": 0,
+        "dmx_start_address": "0.41",
+        "in_stage_view": true
+    },
+    {
+        "id": 103,
+        "fixture_name": "Fluter",
+        "fixture_library_id": 5,
+        "display_name": "Fluter",
+        "channel_mode": 0,
+        "dmx_start_address": "0.42",
+        "in_stage_view": true
+    },
+    {
+        "id": 104,
+        "fixture_name": "Fluter",
+        "fixture_library_id": 5,
+        "display_name": "Fluter",
+        "channel_mode": 0,
+        "dmx_start_address": "0.43",
+        "in_stage_view": true
+    },
+    {
+        "id": 105,
+        "fixture_name": "Fluter",
+        "fixture_library_id": 5,
+        "display_name": "Kane LM",
+        "channel_mode": 0,
+        "dmx_start_address": "0.44",
+        "in_stage_view": true
+    },
+    {
+        "id": 106,
+        "fixture_name": "Fluter",
+        "fixture_library_id": 5,
+        "display_name": "Kanne L",
+        "channel_mode": 0,
+        "dmx_start_address": "0.45",
+        "in_stage_view": true
     }
 ]

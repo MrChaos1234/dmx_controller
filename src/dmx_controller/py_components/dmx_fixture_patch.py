@@ -11,6 +11,7 @@ class DmxFixturePatch(QObject):
         self._fixture_manager = fixture_manager
         self._fixtures = []
         self._selected_fixtures = {}
+        self.foo = 1
 
     def setup(self) -> None:
         self._get_fixtures()
@@ -65,7 +66,10 @@ class DmxFixturePatch(QObject):
     
     @pyqtSlot(object)
     def add_fixture_handler(self, fixture: Fixture) -> None:
-        self._fixture_manager.add_fixture(fixture.fixture_library_id, fixture.channel_mode, fixture.id, fixture.display_name, fixture.dmx_start_address)  # needs input!!! work to do here  Realisation: object? 
+        self._fixture_manager.add_fixture(fixture.fixture_library_id, 
+                                          fixture.channel_mode, fixture.id, 
+                                          fixture.display_name, 
+                                          fixture.dmx_start_address)
         self._get_fixtures()
         self._notify_fixtures_changed()
     
@@ -73,5 +77,17 @@ class DmxFixturePatch(QObject):
     def remove_fixture_handler(self, index) -> None:
         self._fixture_manager.remove_fixture(index)  # remove the fixture from the json file with fixture manager
         self._selected_fixtures = {}  # reset the selected fixtures
+        self._get_fixtures()  # reload fixtures
+        self._notify_fixtures_changed()  # notify the view
+        
+    @pyqtSlot(int, list)  
+    def add_fixture_to_stage_view_handler(self, index: int, coordinates: list) -> None:
+        self._fixture_manager.add_fixture_to_stage_view(index, coordinates) # add fixture to stage_view databas
+        self._fixture_manager.change_fixture_in_stage_view_status(index, True)  # change the status of the fixture in the fixture_patch database
+        self._get_fixtures()  # reload fixtures
+        self._notify_fixtures_changed()  # notify the view
+    
+    @pyqtSlot()
+    def update_fixture_patch_handler(self) -> None:
         self._get_fixtures()  # reload fixtures
         self._notify_fixtures_changed()  # notify the view

@@ -42,7 +42,7 @@ Window {
                 bottomMargin: 8
             }
             source: "qml_pages/LivePage.qml"
-            //source: "qml_pages/SetupPage.qml"  // this one default for now
+            //source: "qml_pages/RecordPage.qml"  // this one default for now
 
             onLoaded: {
                 console.log("Loaded: " + source)
@@ -73,7 +73,8 @@ Window {
             id: hardwareIndicatorRotaryEncoder
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 2
-            anchors.left: dummyL.right
+            anchors.left: parent.left
+            anchors.leftMargin: 1031
             width: rotaryEncoderRow.width
             height: 125
 
@@ -115,20 +116,33 @@ Window {
                 DoubleSpeedRotaryEncoder {
                     id: doubleSpeedRotaryEncoder3
                     model: doubleSpeedRotaryEncoderQmlPresentationModel3
-                    purpose: "---"
+                    purpose: "DIMMER"
                 }
             }
         }
 
-        // Dummy bottom bar
-        Image{
-            visible: record_page_loaded ? true : false ||  live_page_loaded ? true : false // only visible on record page and live page
-            id: dummyL
+        // Bottom bar
+        // Image{
+        //     visible: record_page_loaded ? true : false ||  live_page_loaded ? true : false // only visible on record page and live page
+        //     id: dummyL
+        //     anchors.bottom: parent.bottom
+        //     anchors.left: parent.left
+            
+        //     source: "res/dummy_l.png"
+        // }
+
+        Faders {
+            visible: live_page_loaded ? true : false // only visible on live page
+            id: faders
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            
-            source: "res/dummy_l.png"
+            anchors.leftMargin: 105
+            width: 400
+            height: 125
+
         }
+
+
         Image{
             visible: record_page_loaded ? true : false ||  live_page_loaded ? true : false // only visible on record page and live page
             id: dummyR

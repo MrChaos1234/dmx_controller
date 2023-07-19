@@ -6,12 +6,14 @@ class ColorPickerQmlPresentationModel(QObject):
     r_updated: pyqtSignal = pyqtSignal()
     g_updated: pyqtSignal = pyqtSignal()
     b_updated: pyqtSignal = pyqtSignal()
-
+    dimmer_updated: pyqtSignal = pyqtSignal()
+    
     mixed_color_updated: pyqtSignal = pyqtSignal(int, int, int)
 
     _r: int
     _g: int
     _b: int 
+    _dimmer: int
 
     def __init__(self, instance_data: object = None,
                        parent: QObject = None):
@@ -19,6 +21,7 @@ class ColorPickerQmlPresentationModel(QObject):
         self._r = 0
         self._g = 0
         self._b = 0
+        self._dimmer = 0
 
     @pyqtProperty(int, notify=r_updated)
     def r(self) -> int:
@@ -53,6 +56,17 @@ class ColorPickerQmlPresentationModel(QObject):
         self._b = value
         self.b_updated.emit()
 
+    @pyqtProperty(int, notify=dimmer_updated)
+    def dimmer(self) -> int:
+        return self._dimmer
+
+    @dimmer.setter
+    def dimmer(self, value: int) -> None:
+        if self._dimmer == value:
+            return
+        self._dimmer = value
+        self.dimmer_updated.emit()
+
     @pyqtSlot(int)
     def r_changed(self, r: int) -> None:
         self.r = r
@@ -64,6 +78,10 @@ class ColorPickerQmlPresentationModel(QObject):
     @pyqtSlot(int)
     def b_changed(self, b: int) -> None:
         self.b = b
+        
+    @pyqtSlot(int)
+    def dimmer_changed(self, dimmer: int) -> None:
+        self.dimmer = dimmer
 
     @pyqtSlot(int, int, int)
     def mixed_color_changed(self, r: int, g: int, b: int) -> None:

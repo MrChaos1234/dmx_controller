@@ -15,6 +15,12 @@ Window {
             model: kKeypadQmlPresentationModel
         }
 
+        XButtons {
+            id: xButtons
+            model: xButtonsQmlPresentationModel
+        }
+
+
         Rectangle {
             id: led_toggle_button
             anchors.centerIn: parent

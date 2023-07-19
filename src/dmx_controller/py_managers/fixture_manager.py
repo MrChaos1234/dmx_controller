@@ -6,8 +6,10 @@ class FixtureManager:
     def __init__(self):
         pass
 
-    def add_fixture(self, str_fixture_library_id: int, str_mode_id: int, str_fixture_id: int, fixture_display_name: str, dmx_address: str) -> str:
-        print("add fixture started")
+    def add_fixture(self, str_fixture_library_id: int, str_mode_id: int,
+                    str_fixture_id: int, fixture_display_name: str, dmx_address: str,
+                    in_stage_view: bool = False) -> str:
+
         fixture_library_id: int = int(str_fixture_library_id)
         mode_id: int = int(str_mode_id)
         fixture_id: int = int(str_fixture_id)
@@ -26,7 +28,8 @@ class FixtureManager:
                 return "error: fixture id is already taken"
 
         new_fixture: dict = {"id": int(fixture_id), "fixture_name": name, "fixture_library_id": fixture_library_id,
-                             "display_name": fixture_display_name, "channel_mode": mode_id, "dmx_start_address": str(dmx_address)}
+                             "display_name": fixture_display_name, "channel_mode": mode_id, "dmx_start_address": str(dmx_address),
+                             "in_stage_view": in_stage_view}
 
         data.append(new_fixture)
         with open("data/fixture_patch.json", 'w') as f:
@@ -56,6 +59,24 @@ class FixtureManager:
             if data[i]["id"] == fixture_id:
                 del data[i]
                 break
+        with open("data/fixture_patch.json", 'w') as f:
+            json.dump(data, f, indent=4, separators=(',', ': '))
+
+    def change_fixture_in_stage_view_status(self, fixture_id, status):
+        with open("data/fixture_patch.json") as f:
+            data = json.load(f)
+
+        if status == True:
+            in_stage_view = True
+        else:
+            in_stage_view = False
+
+        # find the fixture and change the status
+        for i in range(len(data)):
+            if data[i]["id"] == fixture_id:
+                data[i]["in_stage_view"] = in_stage_view
+                break
+
         with open("data/fixture_patch.json", 'w') as f:
             json.dump(data, f, indent=4, separators=(',', ': '))
 
@@ -102,14 +123,16 @@ class FixtureManager:
 
         # fill dmx patch
         for i in range(len(data)):
-            dmx_patch[str(str(data[i]["dmx_start_address"]).split(".")[1])] = [data[i]["id"], data[i]["display_name"]]
+            dmx_patch[str(str(data[i]["dmx_start_address"]).split(".")[1])] = [
+                data[i]["id"], data[i]["display_name"]]
             channels: list = self.list_available_fixtures()[data[i]["fixture_library_id"]][1][data[i]["channel_mode"]][1]
             for i_channel in range(len(channels)):
                 # [fixture_id, fixture_display_name, channel_name]
-                build_list = [data[i]["id"], data[i]
-                              ["display_name"], channels[i_channel]]
+                build_list = [data[i]["id"], data[i]["display_name"], channels[i_channel]]
                 dmx_patch[str(int(str(data[i]["dmx_start_address"]).split(".")[1]) + i_channel)] = build_list
+                
         # dmx_patch = {"1": [id, display_name, channel_name], "2": {..}}
+        # print(dmx_patch)
         return dmx_patch
 
     def calculate_fixture_patch(self) -> dict:
@@ -122,7 +145,119 @@ class FixtureManager:
 
         return fixture_patch
 
+    #### Interaction with the stage view database ####
 
+    def add_fixture_to_stage_view(self, fixture_id: int, coordinates: list):
+        with open("data/fixture_patch.json") as f:
+            data = json.load(f)
+
+        # check if fixture id exists
+        exists = False
+        for i in range(len(data)):
+            if data[i]["id"] == fixture_id:
+                exists = True
+                break
+        if not exists:
+            print("error: fixture id does not exist")
+            return "error: fixture id does not exist"
+
+        # get fixture data
+        fixtures = self.calculate_fixture_patch()
+        for fixture in fixtures:
+            if fixture["id"] == fixture_id:
+                break
+
+        # extract id and fixture_library_id
+        id = fixture["id"]
+        fixture_library_id = fixture["fixture_library_id"]
+
+        # read old stage data
+        with open("data/stage_view.json") as f:
+            data = json.load(f)
+
+        # check if fixture is already on stage
+        for i in range(len(data)):
+            if data[i]["id"] == fixture_id:
+                print("error: fixture is already on stage")
+                return "error: fixture is already on stage"
+
+        # generate the new stage data
+        fixture_on_stage = {
+            "id": id, "fixture_library_id": fixture_library_id, "coordinates": coordinates}
+        data.append(fixture_on_stage)
+
+        with open("data/stage_view.json", 'w') as f:
+            json.dump(data, f, indent=4, separators=(',', ': '))
+
+    def change_fixtures_stage_view_coordinates(self, fixture_id: int, coordinates: list):
+        with open("data/fixture_patch.json") as f:
+            data = json.load(f)
+
+        # get fixture data and extract fixture_library_id
+        fixtures = self.calculate_fixture_patch()
+        for fixture in fixtures:
+            if fixture["id"] == fixture_id:
+                break
+        id = fixture["id"]
+        fixture_library_id = fixture["fixture_library_id"]
+
+        # read old stage data
+        with open("data/stage_view.json") as f:
+            data = json.load(f)
+
+        # generate the new stage data
+        for i in range(len(data)):
+            if data[i]["id"] == fixture_id:
+                data[i]["coordinates"] = coordinates
+
+        with open("data/stage_view.json", 'w') as f:
+            json.dump(data, f, indent=4, separators=(',', ': '))
+
+    def count_stage_view_fixtures(self):
+        with open("data/fixture_patch.json") as f:
+            data = json.load(f)
+
+        return len(data)
+
+    def list_all_fixtures_in_stage_view(self):
+        with open("data/stage_view.json") as f:
+            data = json.load(f)
+
+        fixtures_in_stage_view = []
+
+        for i in range(len(data)):
+            fixtures_in_stage_view.append(
+                [data[i]["id"], data[i]["fixture_library_id"], data[i]["coordinates"]])
+
+        return fixtures_in_stage_view
+
+    def delete_fixture_from_stage_view(self, fixture_id):
+        # delete entry from stage_view.json
+        with open("data/stage_view.json") as f:
+            data = json.load(f)
+            
+        for i in range(len(data)):
+            if data[i]["id"] == fixture_id:
+                del data[i]
+                break
+        
+        with open("data/stage_view.json", 'w') as f:
+            json.dump(data, f, indent=4, separators=(',', ': '))
+        
+        # set in_stage_view to false in fixtures.json
+        with open("data/fixture_patch.json") as f:
+            data = json.load(f)
+            
+        for i in range(len(data)):
+            if data[i]["id"] == fixture_id:
+                data[i]["in_stage_view"] = False
+                break
+        with open("data/fixture_patch.json", 'w') as f:
+            json.dump(data, f, indent=4, separators=(',', ': '))
+                
+        return "Done"
+    
+        
 class Fixture(object):
     id: int
     fixture_name: str
@@ -131,6 +266,7 @@ class Fixture(object):
     channel_mode: 0
     dmx_start_address: str
     selected: bool
+    in_stage_view: bool
 
     def __init__(self, data: dict, selected: bool = False):
         self.id = str(data["id"])
@@ -140,6 +276,10 @@ class Fixture(object):
         self.channel_mode = str(data["channel_mode"])
         self.dmx_start_address = str(data["dmx_start_address"])
         self.selected = selected
+        try:
+            self.in_stage_view = str(data["in_stage_view"])
+        except KeyError:
+            self.in_stage_view = False
 
         if selected:
             self.selected = True
@@ -161,14 +301,16 @@ class Channel(object):
     fixture_id: str
     fixture_display_name: str
     fixture_channel_name: str
-    
+
     def __init__(self, id: str, fixture_id: str, fixture_display_name: str, fixture_channel_name: str):
         self.id = id
         self.fixture_id = fixture_id
         self.fixture_display_name = fixture_display_name
         self.fixture_channel_name = fixture_channel_name
 
+
 # F = FixtureManager()
+# F.count_stage_view_fixtures()
 # print(F.list_available_fixtures())
 # print(F.add_fixture(0, 0, 2, "LED PAR 64 1", "0.1"))
 # F.remove_fixture(1004)
@@ -176,4 +318,6 @@ class Channel(object):
 # print(F.calculate_dmx_patch())
 # print(F.calculate_fixture_patch())
 # for el in F.calculate_fixture_patch():
-    # print(F.calculate_fixture_patch()[el])
+# print(F.calculate_fixture_patch()[el])
+
+# F.edit_fixture_position(1)

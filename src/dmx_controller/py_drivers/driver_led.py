@@ -1,6 +1,6 @@
 from smbus import SMBus
 
-class I2cLed(object):
+class I2cLedDriver(object):
     i2c_bus: SMBus
     i2cadress: int
     

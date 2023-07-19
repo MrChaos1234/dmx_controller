@@ -1,0 +1,82 @@
+[
+    {
+        "id": 10,
+        "fixture_library_id": 7,
+        "coordinates": [
+            205,
+            266
+        ]
+    },
+    {
+        "id": 11,
+        "fixture_library_id": 7,
+        "coordinates": [
+            373,
+            263
+        ]
+    },
+    {
+        "id": 12,
+        "fixture_library_id": 7,
+        "coordinates": [
+            578,
+            275
+        ]
+    },
+    {
+        "id": 13,
+        "fixture_library_id": 7,
+        "coordinates": [
+            780,
+            263
+        ]
+    },
+    {
+        "id": 102,
+        "fixture_library_id": 5,
+        "coordinates": [
+            722,
+            511
+        ]
+    },
+    {
+        "id": 103,
+        "fixture_library_id": 5,
+        "coordinates": [
+            575,
+            518
+        ]
+    },
+    {
+        "id": 104,
+        "fixture_library_id": 5,
+        "coordinates": [
+            421,
+            523
+        ]
+    },
+    {
+        "id": 101,
+        "fixture_library_id": 5,
+        "coordinates": [
+            895,
+            439
+        ]
+    },
+    {
+        "id": 106,
+        "fixture_library_id": 5,
+        "coordinates": [
+            100,
+            454
+        ]
+    },
+    {
+        "id": 105,
+        "fixture_library_id": 5,
+        "coordinates": [
+            257,
+            526
+        ]
+    }
+]

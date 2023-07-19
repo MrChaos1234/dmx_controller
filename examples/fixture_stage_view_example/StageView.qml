@@ -1,12 +1,12 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
+import QtQml.Models 2.2
 
 Item {
     id: stageView
     property var qml_presentation_model: None
 
-    
     width: 1100
     height: 800
 
@@ -27,6 +27,20 @@ Item {
     }
 
     // Dynamicaly Create dragable rectangles
-    // Basierend auf Loader und Model! 
+
+    // Temp test model
+    ListModel {
+        id: listModel
+        ListElement {
+            pos_x: 100
+            pos_y: 100
+        }
+        ListElement {
+            pos_x: 300
+            pos_y: 300
+        }
+    }
 
 }
+
+

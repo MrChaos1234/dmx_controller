@@ -11,6 +11,7 @@ class KKeypadQmlPresentationModel(QObject):
 
     @pyqtSlot(int)
     def key_pressed_handler(self, key_number: int) -> None:
+        print("keypad muss hier durch")
         self.key_pressed.emit(key_number)
 
     @pyqtSlot(int)

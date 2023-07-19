@@ -1,0 +1,66 @@
+{
+  "$schema": "https://raw.githubusercontent.com/OpenLightingProject/open-fixture-library/master/schemas/fixture.json",
+  "name": "LED Balken",
+  "shortName": "LEDBalken",
+  "categories": ["Color Changer"],
+  "meta": {
+    "authors": ["Phil Meyer"],
+    "createDate": "2023-06-27",
+    "lastModifyDate": "2023-06-27"
+  },
+  "availableChannels": {
+    "Dimmer": {
+      "fineChannelAliases": ["Dimmer fine", "Dimmer fine^2"],
+      "capability": {
+        "type": "Intensity"
+      }
+    },
+    "Red": {
+      "fineChannelAliases": ["Red fine", "Red fine^2"],
+      "capability": {
+        "type": "ColorIntensity",
+        "color": "Red"
+      }
+    },
+    "Green": {
+      "fineChannelAliases": ["Green fine", "Green fine^2"],
+      "capability": {
+        "type": "ColorIntensity",
+        "color": "Green"
+      }
+    },
+    "Blue": {
+      "fineChannelAliases": ["Blue fine", "Blue fine^2"],
+      "capability": {
+        "type": "ColorIntensity",
+        "color": "Blue"
+      }
+    },
+    "White": {
+      "fineChannelAliases": ["White fine", "White fine^2"],
+      "capability": {
+        "type": "ColorIntensity",
+        "color": "White"
+      }
+    },"Strobe": {
+      "fineChannelAliases": ["Strobe fine", "Strobe fine^2"],
+      "capability": {
+        "type": "Generic"
+      }
+    }
+  },
+  "modes": [
+    {
+      "name": "8 bit",
+      "shortName": "8bit",
+      "channels": [
+        "Dimmer",
+        "Red",
+        "Green",
+        "Blue",
+        "White",
+        "Strobe"
+      ]
+    }
+  ]
+}

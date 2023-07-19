@@ -1,0 +1,265 @@
+[
+    {
+        "page_id": 0,
+        "page_name": "Page 1",
+        "fader_data": [
+            {
+                "fader_id": 0,
+                "cue_id": 50, 
+                "effect": "None",
+                "fader_purpose": "dimmer"
+            },
+            {
+                "fader_id": 1,
+                "cue_id": 51,
+                "effect": "None",
+                "fader_purpose": "red"
+            },
+            {
+                "fader_id": 2,
+                "cue_id": 52,
+                "effect": "None",
+                "fader_purpose": "green"
+            },
+            {
+                "fader_id": 3,
+                "cue_id": 53,
+                "effect": "None",
+                "fader_purpose": "blue"
+            },
+            {
+                "fader_id": 4,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 5,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 6,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 7,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 8,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 9,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            }
+        ]
+    },
+    {
+        "page_id": 1,
+        "page_name": "Page 2",
+        "fader_data": [
+            {
+                "fader_id": 0,
+                "cue_id": "None",
+                "effect": "1_speed",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 1,
+                "cue_id": "None",
+                "effect": "1_fade",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 2,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 3,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 4,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 5,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 6,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 7,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 8,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 9,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            }
+        ]
+    },{
+        "page_id": 2,
+        "page_name": "Page 3",
+        "fader_data": [
+            {
+                "fader_id": 0,
+                "cue_id": 100,
+                "effect": "None",
+                "fader_purpose": "dimmer"
+            },
+            {
+                "fader_id": 1,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 2,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 3,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 4,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 5,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 6,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 7,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 8,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 9,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            }
+        ]
+    },
+    {
+        "page_id": 3,
+        "page_name": "Page 4",
+        "fader_data": [
+            {
+                "fader_id": 0,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 1,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": "2",
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 3,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 4,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 5,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 6,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 7,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 8,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            },
+            {
+                "fader_id": 9,
+                "cue_id": "None",
+                "effect": "None",
+                "fader_purpose": "None"
+            }
+        ]
+    } 
+]

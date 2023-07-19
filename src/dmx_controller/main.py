@@ -9,7 +9,7 @@ from PyQt5.QtCore import QTimer
 from threads.i2c_thread import I2cThread
 from py_components.k_keypad import KKeypad
 from py_components.hardware_led import HardwareLed
-
+from py_components.x_buttons import XButtons
 
 from py_qml_presentation_models.qml_presentation_model_k_keypad import KKeypadQmlPresentationModel
 from py_qml_presentation_models.qml_presentation_model_hardware_led import HardwareLedQmlPresentationModel
@@ -21,6 +21,15 @@ from py_qml_presentation_models.qml_presentation_model_fixture_library import Fi
 from py_qml_presentation_models.qml_presentation_model_color_picker import ColorPickerQmlPresentationModel
 from py_qml_presentation_models.qml_presentation_model_dmx_list import DmxListQmlPresentationModel
 from py_qml_presentation_models.qml_presentation_model_dmx_channel import DmxChannelQmlPresentationModel
+from py_qml_presentation_models.qml_presentation_model_stage_view import StageViewQmlPresentationModel
+from py_qml_presentation_models.qml_presentation_model_cue import CueQmlPresentationModel
+from py_qml_presentation_models.qml_presentation_model_cue_list import CueListQmlPresentationModel
+from py_qml_presentation_models.qml_presentation_model_fader import FaderQmlPresentationModel
+from py_qml_presentation_models.qml_presentation_model_artnet_output import ArtnetOutputQmlPresentationModel
+from py_qml_presentation_models.qml_presentation_model_x_buttons import XButtonsQmlPresentationModel
+from py_qml_presentation_models.qml_presentation_model_effects import EffectsQmlPresentationModel
+
+from py_components.setup_stage_view import SetupStageView
 
 from app_logic import AppLogic
 
@@ -50,15 +59,36 @@ def main():
     double_speed_rotary_encoder_qml_presentation_model_3: DoubleSpeedRotaryEncoderQmlPresentationModel = DoubleSpeedRotaryEncoderQmlPresentationModel()
 
     fixture_qml_presentation_models: list[FixtureQmlPresentationModel] = []
-    fixtures_qml_presentation_model: DmxFixturePatchQmlPresentationModel = DmxFixturePatchQmlPresentationModel(fixture_qml_presentation_models, engine)
+    fixtures_qml_presentation_model: DmxFixturePatchQmlPresentationModel = DmxFixturePatchQmlPresentationModel(
+        fixture_qml_presentation_models, engine)
 
-    library_fixture_qml_presentation_models: list[LibraryFixtureQmlPresentationModel] = []
-    fixture_library_qml_presentation_model: FixtureLibraryQmlPresentationModel = FixtureLibraryQmlPresentationModel(library_fixture_qml_presentation_models, engine)
-    
-    color_picker_qml_presentation_model: ColorPickerQmlPresentationModel = ColorPickerQmlPresentationModel(None, engine)
-   
-    dmx_list_qml_presentations_models: list[DmxChannelQmlPresentationModel] = []
-    dmx_list_qml_presentations_model: DmxListQmlPresentationModel = DmxListQmlPresentationModel(dmx_list_qml_presentations_models, engine)
+    library_fixture_qml_presentation_models: list[LibraryFixtureQmlPresentationModel] = [
+    ]
+    fixture_library_qml_presentation_model: FixtureLibraryQmlPresentationModel = FixtureLibraryQmlPresentationModel(
+        library_fixture_qml_presentation_models, engine)
+
+    color_picker_qml_presentation_model: ColorPickerQmlPresentationModel = ColorPickerQmlPresentationModel(
+        None, engine)
+
+    dmx_list_qml_presentations_models: list[DmxChannelQmlPresentationModel] = [
+    ]
+    dmx_list_qml_presentations_model: DmxListQmlPresentationModel = DmxListQmlPresentationModel(
+        dmx_list_qml_presentations_models, engine)
+
+    stage_view_qml_presentation_model: StageViewQmlPresentationModel = StageViewQmlPresentationModel()
+    setup_stage_view: SetupStageView = SetupStageView()
+
+    cues_qml_presentation_models: list[CueQmlPresentationModel] = []
+    cue_qml_presentation_model: CueListQmlPresentationModel = CueListQmlPresentationModel(
+        cues_qml_presentation_models, engine)
+
+    fader_qml_presentation_model: FaderQmlPresentationModel = FaderQmlPresentationModel()
+
+    artnet_output_qml_presentation_model: ArtnetOutputQmlPresentationModel = ArtnetOutputQmlPresentationModel()
+
+    x_buttons_qml_presentation_model: XButtonsQmlPresentationModel = XButtonsQmlPresentationModel()
+
+    effects_qml_presentations_model: EffectsQmlPresentationModel = EffectsQmlPresentationModel()
     
     app_logic: AppLogic = AppLogic(double_speed_rotary_encoder_qml_presentation_model_0,
                                    double_speed_rotary_encoder_qml_presentation_model_1,
@@ -69,6 +99,14 @@ def main():
                                    fixture_library_qml_presentation_model,
                                    color_picker_qml_presentation_model,
                                    dmx_list_qml_presentations_model,
+                                   stage_view_qml_presentation_model,
+                                   setup_stage_view,
+                                   cue_qml_presentation_model,
+                                   cues_qml_presentation_models,
+                                   fader_qml_presentation_model,
+                                   artnet_output_qml_presentation_model,
+                                   x_buttons_qml_presentation_model,
+                                   effects_qml_presentations_model,
                                    DEBOUNCING_EXTERNAL_TIMER_FRQUENCY)
 
     ##### NO KEYPAD OR LEDS #####
@@ -86,7 +124,6 @@ def main():
     # hardware_leds.hardware_led_color_change.connect(
     #     i2c_connection.led_color_change_handler)
 
-
     engine.quit.connect(app.quit)
     # engine.rootContext().setContextProperty('kKeypadQmlPresentationModel',
     #                                         k_keypad_qml_presentation_model)  # Make the KKeypadQmlPresentationModel class available to QML
@@ -103,12 +140,19 @@ def main():
 
     # Make the Led class available to QML
     # engine.rootContext().setContextProperty('hardwareLeds', hardware_leds)
-    
+
     engine.rootContext().setContextProperty('dmxFixturePatchQmlPresentationModel', fixtures_qml_presentation_model)
     engine.rootContext().setContextProperty('fixtureLibraryQmlPresentationModel', fixture_library_qml_presentation_model)
     engine.rootContext().setContextProperty('colorPickerQmlPresentationModel', color_picker_qml_presentation_model)
     engine.rootContext().setContextProperty('dmxListQmlPresentationModel', dmx_list_qml_presentations_model)
-    engine.load('MainWindow.qml')
+    engine.rootContext().setContextProperty('stageViewQmlPresentationModel', stage_view_qml_presentation_model)
+    engine.rootContext().setContextProperty('cueListQmlPresentationModel', cue_qml_presentation_model)
+    engine.rootContext().setContextProperty('faderQmlPresentationModel', fader_qml_presentation_model)
+    engine.rootContext().setContextProperty('artnetOutputQmlPresentationModel', artnet_output_qml_presentation_model)
+    engine.rootContext().setContextProperty('xButtonsQmlPresentationModel', x_buttons_qml_presentation_model)
+    engine.rootContext().setContextProperty('effectsQmlPresentationModel', effects_qml_presentations_model)
+
+    engine.load("MainWindow.qml")
 
     # Setup for Aplogic -> rotary encoders
     app_logic.setup()
@@ -122,7 +166,7 @@ def main():
 
     app_exit_code: int = app.exec()
 
-    #i2c_connection.stop_and_wait()  # Stop the I2cThread
+    # i2c_connection.stop_and_wait()  # Stop the I2cThread
     # Further Threads can be stopped here
 
     sys.exit(app_exit_code)

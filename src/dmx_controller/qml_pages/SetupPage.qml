@@ -8,7 +8,7 @@ Item {
     id: setupPage
     anchors.fill: parent
     Rectangle {
-        id: s
+        id: setupPageRect
         anchors.fill: parent
         color: "#121212"
 
@@ -27,22 +27,9 @@ Item {
             anchors.top: parent.top
         }
 
-        Rectangle {
-            color: "#1b1b1b"
+        StageSetupView {
+            id: stageSetupView
             anchors.left: dmxFixturePatchView.right
-            width: 1100
-            height: 800
-            border.color: "orange"
-            border.width: 4
-
-            Text {
-                id: text2
-                anchors.centerIn: parent
-                text: "Stage View Placeholder"
-                font.pixelSize: 30
-                color: "#ffffff"
-            }
-
         }
     }
 }

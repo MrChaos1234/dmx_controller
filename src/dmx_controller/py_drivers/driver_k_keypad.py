@@ -6,7 +6,7 @@ GPPUA = 0x0C  # Pull-up resistors for port A
 GPIOA = 0x12  # Data port A
 GPIOB = 0x13  # Data port B
 
-class I2cKeypad(object):
+class I2cKeypadDriver(object):
     i2c_bus: SMBus
     i2cadress: int
     button_states_old: list
@@ -69,4 +69,3 @@ class I2cKeypad(object):
             for row in range(len(self.button_states)):
                 for digit in range(len(self.button_states[row])):
                     self.button_states_old[row][digit] = self.button_states[row][digit]
-
